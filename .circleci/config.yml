@@ -1,109 +1,126 @@
 version: 2
-jobs:
-  testFeatureBranchesReact:
-    resource_class: medium
-    docker:
-      - image: docker:18.06.3-ce-git
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build react application Docker image
-          command: |
-            docker build -t kellydouglass/react-front-circleci-complex-feature-test -f ./react-front-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
-      - run:
-          name: Run react Tests
-          command: |
-            docker run -e CI=true kellydouglass/react-front-circleci-complex-feature-test npm run test
 
-  testFeatureBranchesExpress:
-      resource_class: medium
-      docker:
-        - image: docker:18.06.3-ce-git
-      steps:
-        - checkout
-        - setup_remote_docker
-        - run:
-            name: Build Express application Docker image
-            command: |
-              docker build -t kellydouglass/express-server-circleci-complex-feature-test -f ./express-server-circleci-complex/Dockerfile.dev ./express-server-circleci-complex
-        # - run:
-        #     name: Run Express Tests
-        #     command: |
-        #       docker run -e CI=true kellydouglass/express-server-circleci-complex-feature-test npm run test
+orbs:
+  aws-ecr: circleci/aws-ecr@6.7.0
+
+# jobs:
+#   testFeatureBranchesReact:
+#     resource_class: medium
+#     docker:
+#       - image: docker:18.06.3-ce-git
+#     steps:
+#       - checkout
+#       - setup_remote_docker
+#       - run:
+#           name: Build react application Docker image
+#           command: |
+#             docker build -t kellydouglass/react-front-circleci-complex-feature-test -f ./react-front-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
+#       - run:
+#           name: Run react Tests
+#           command: |
+#             docker run -e CI=true kellydouglass/react-front-circleci-complex-feature-test npm run test
+
+#   testFeatureBranchesExpress:
+#       resource_class: medium
+#       docker:
+#         - image: docker:18.06.3-ce-git
+#       steps:
+#         - checkout
+#         - setup_remote_docker
+#         - run:
+#             name: Build Express application Docker image
+#             command: |
+#               docker build -t kellydouglass/express-server-circleci-complex-feature-test -f ./express-server-circleci-complex/Dockerfile.dev ./express-server-circleci-complex
+#         # - run:
+#         #     name: Run Express Tests
+#         #     command: |
+#         #       docker run -e CI=true kellydouglass/express-server-circleci-complex-feature-test npm run test
 
 
-  testAndDeployReactMain:
-      resource_class: medium
-      docker:
-        - image: docker:18.06.3-ce-git
-      steps:
-        - checkout
-        - setup_remote_docker
-        - run:
-            name: Build react application Docker image
-            command: |
-              docker build -t kellydouglass/react-front-circleci-complex -f ./react-front-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
-        - run:
-            name: Run react Tests
-            command: |
-              docker run -e CI=true kellydouglass/react-front-circleci-complex npm run test
-        - deploy:
-            name: Push application Docker image
-            command: |
-              TAG=0.1.$CIRCLE_BUILD_NUM
-              echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
-              docker push kellydouglass/react-front-circleci-complex
+#   testAndDeployReactMain:
+#       resource_class: medium
+#       docker:
+#         - image: docker:18.06.3-ce-git
+#       steps:
+#         - checkout
+#         - setup_remote_docker
+#         - run:
+#             name: Build react application Docker image
+#             command: |
+#               docker build -t kellydouglass/react-front-circleci-complex -f ./react-front-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
+#         - run:
+#             name: Run react Tests
+#             command: |
+#               docker run -e CI=true kellydouglass/react-front-circleci-complex npm run test
+#         - deploy:
+#             name: Push application Docker image
+#             command: |
+#               TAG=0.1.$CIRCLE_BUILD_NUM
+#               echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
+#               docker push kellydouglass/react-front-circleci-complex
 
-  testAndDeployExpressMain:
-      resource_class: medium
-      docker:
-        - image: docker:18.06.3-ce-git
-      steps:
-        - checkout
-        - setup_remote_docker
-        - run:
-            name: Build Express application Docker image
-            command: |
-              docker build -t kellydouglass/express-server-circleci-complex -f ./express-server-circleci-complex/Dockerfile.dev ./express-server-circleci-complex
-        # - run:
-        #     name: Run Express Tests
-        #     command: |
-        #       docker run -e CI=true kellydouglass/express-server-circleci-complex 
-        - deploy:
-            name: Push Express application Docker image
-            command: |
-              TAG=0.1.$CIRCLE_BUILD_NUM
-              echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
-              docker push kellydouglass/express-server-circleci-complex
+#   testAndDeployExpressMain:
+#       resource_class: medium
+#       docker:
+#         - image: docker:18.06.3-ce-git
+#       steps:
+#         - checkout
+#         - setup_remote_docker
+#         - run:
+#             name: Build Express application Docker image
+#             command: |
+#               docker build -t kellydouglass/express-server-circleci-complex -f ./express-server-circleci-complex/Dockerfile.dev ./express-server-circleci-complex
+#         # - run:
+#         #     name: Run Express Tests
+#         #     command: |
+#         #       docker run -e CI=true kellydouglass/express-server-circleci-complex 
+#         - deploy:
+#             name: Push Express application Docker image
+#             command: |
+#               TAG=0.1.$CIRCLE_BUILD_NUM
+#               echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
+#               docker push kellydouglass/express-server-circleci-complex
+
 
 workflows:
   version: 2
-  build_test_feature:
+  # build_test_feature:
+  #   jobs:
+  #     - testFeatureBranchesReact:
+  #         filters:
+  #           branches:
+  #             ignore:
+  #               - main
+  #               - master
+  #     - testFeatureBranchesExpress:
+  #         filters:
+  #           branches:
+  #             ignore:
+  #               - main
+  #               - master
+  # build_test_Deploy_main:
+  #   jobs:
+  #     - testAndDeployReactMain:
+  #         filters:
+  #           branches:
+  #             only:
+  #               - main
+  #               - master
+  #     - testAndDeployExpressMain:
+  #         filters:
+  #           branches:
+  #             only:
+  #               - main
+  #               - master
+  build_and_push_image:
     jobs:
-      - testFeatureBranchesReact:
-          filters:
-            branches:
-              ignore:
-                - main
-                - master
-      - testFeatureBranchesExpress:
-          filters:
-            branches:
-              ignore:
-                - main
-                - master
-  build_test_Deploy_main:
-    jobs:
-      - testAndDeployReactMain:
-          filters:
-            branches:
-              only:
-                - main
-                - master
-      - testAndDeployExpressMain:
-          filters:
-            branches:
-              only:
-                - main
-                - master
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: false
+          dockerfile: Dockerfile.dev
+          path: ./express-server-circleci-complex/
+          region: AWS_REGION
+          repo: circleci-ecr-orb-demo
+          tag: "$CIRCLE_SHA1"

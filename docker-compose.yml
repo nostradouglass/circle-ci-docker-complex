@@ -1,0 +1,22 @@
+version: "3"
+services: 
+    react-front-circleci-complex:
+        build:
+            context: ./react-front-circleci-complex
+            dockerfile: Dockerfile.dev
+        volumes: 
+            - /app/node_modules
+            - ./react-front-circleci-complex:/app
+        mem_limit: 256m
+        ports: 
+            - "3000:3000"
+    express-server-circleci-complex:
+        build:
+            context: ./express-server-circleci-complex
+            dockerfile: Dockerfile.dev
+        volumes: 
+            - /app/node_modules
+            - ./express-server-circleci-complex:/app
+        mem_limit: 128m
+        ports: 
+            - "4000:4000"

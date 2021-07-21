@@ -26,11 +26,11 @@ jobs:
         - run:
             name: Build Express application Docker image
             command: |
-              docker build -t kellydouglass/express-server-circleci-complex-feature-test -f ./express-server-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
-        - run:
-            name: Run react Tests
-            command: |
-              docker run -e CI=true kellydouglass/express-server-circleci-complex-feature-test npm run test
+              docker build -t kellydouglass/express-server-circleci-complex-feature-test -f ./express-server-circleci-complex/Dockerfile.dev ./express-server-circleci-complex
+        # - run:
+        #     name: Run Express Tests
+        #     command: |
+        #       docker run -e CI=true kellydouglass/express-server-circleci-complex-feature-test npm run test
 
 
   testAndDeployReactMain:
@@ -63,15 +63,15 @@ jobs:
         - checkout
         - setup_remote_docker
         - run:
-            name: Build react application Docker image
+            name: Build Express application Docker image
             command: |
-              docker build -t kellydouglass/express-server-circleci-complex -f ./rexpress-server-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
-        - run:
-            name: Run react Tests
-            command: |
-              docker run -e CI=true kellydouglass/express-server-circleci-complex 
+              docker build -t kellydouglass/express-server-circleci-complex -f ./express-server-circleci-complex/Dockerfile.dev ./express-server-circleci-complex
+        # - run:
+        #     name: Run Express Tests
+        #     command: |
+        #       docker run -e CI=true kellydouglass/express-server-circleci-complex 
         - deploy:
-            name: Push application Docker image
+            name: Push Express application Docker image
             command: |
               TAG=0.1.$CIRCLE_BUILD_NUM
               echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin

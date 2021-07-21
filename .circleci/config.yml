@@ -79,7 +79,7 @@ jobs:
 
 workflows:
   version: 2
-  build_test:
+  build_test_feature:
     jobs:
       - testFeatureBranchesReact:
           filters:
@@ -93,6 +93,8 @@ workflows:
               ignore:
                 - main
                 - master
+  build_test_Deploy_main:
+    jobs:
       - testAndDeployReactMain:
           filters:
             branches:

@@ -14,8 +14,8 @@ jobs:
       - run:
           name: Run react Tests
           command: |
-            docker run -e CI=true -w ./react-front-circleci-complex kellydouglass/react-front-circleci-complex npm run test
-
+            docker run -e CI=true kellydouglass/react-front-circleci-complex npm run test
+            
 workflows:
   version: 2
   build_test:

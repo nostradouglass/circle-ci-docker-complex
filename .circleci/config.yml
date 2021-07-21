@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@6.7.0
+  aws-ecr: circleci/aws-ecr@7.0.0
 
 # jobs:
 #   testFeatureBranchesReact:
@@ -122,5 +122,5 @@ workflows:
           dockerfile: Dockerfile.dev
           path: ./express-server-circleci-complex/
           region: AWS_REGION
-          repo: circleci-ecr-orb-demo
+          repo: express-server-circleci-complex
           tag: "$CIRCLE_SHA1"

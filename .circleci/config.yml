@@ -1,7 +1,7 @@
 version: 2
 jobs:
   testFeatureBranchesReact:
-    resource_class: small
+    resource_class: medium
     docker:
       - image: docker:18.06.3-ce-git
     steps:
@@ -17,7 +17,7 @@ jobs:
             docker run -e CI=true kellydouglass/react-front-circleci-complex-feature-test npm run test
 
   testFeatureBranchesExpress:
-      resource_class: small
+      resource_class: medium
       docker:
         - image: docker:18.06.3-ce-git
       steps:
@@ -34,7 +34,7 @@ jobs:
 
 
   testAndDeployReactMain:
-      resource_class: small
+      resource_class: medium
       docker:
         - image: docker:18.06.3-ce-git
       steps:
@@ -47,7 +47,7 @@ jobs:
         - run:
             name: Run react Tests
             command: |
-              docker run -e CI=true kellydouglass/react-front-circleci-complex 
+              docker run -e CI=true kellydouglass/react-front-circleci-complex npm run test
         - deploy:
             name: Push application Docker image
             command: |
@@ -56,7 +56,7 @@ jobs:
               docker push kellydouglass/react-front-circleci-complex
 
   testAndDeployExpressMain:
-      resource_class: small
+      resource_class: medium
       docker:
         - image: docker:18.06.3-ce-git
       steps:

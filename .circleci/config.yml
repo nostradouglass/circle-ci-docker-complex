@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Build react application Docker image
           command: |
-            docker build -t kellydouglass/react-front-circleci-complex ./react-front-circleci-complex
+            docker build -t kellydouglass/react-front-circleci-complex -f Dockerfile.dev ./react-front-circleci-complex
       - run:
           name: Run react Tests
           command: |

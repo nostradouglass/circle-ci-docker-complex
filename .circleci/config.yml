@@ -10,11 +10,11 @@ jobs:
       - run:
           name: Build react application Docker image
           command: |
-            docker build -t kellydouglass/react-front-circleci-complex-featureTest -f ./react-front-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
+            docker build -t kellydouglass/react-front-circleci-complex-feature=test -f ./react-front-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
       - run:
           name: Run react Tests
           command: |
-            docker run -e CI=true kellydouglass/react-front-circleci-complex-featureTest npm run test
+            docker run -e CI=true kellydouglass/react-front-circleci-complex-feature-test npm run test
 
   testFeatureBranchesExpress:
       resource_class: small
@@ -26,11 +26,11 @@ jobs:
         - run:
             name: Build Express application Docker image
             command: |
-              docker build -t kellydouglass/express-server-circleci-complex -f ./express-server-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
+              docker build -t kellydouglass/express-server-circleci-complex-feature-test -f ./express-server-circleci-complex/Dockerfile.dev ./react-front-circleci-complex
         - run:
             name: Run react Tests
             command: |
-              docker run -e CI=true kellydouglass/express-server-circleci-complex npm run test
+              docker run -e CI=true kellydouglass/express-server-circleci-complex-feature-test npm run test
 
 
   testAndDeployReactMain:
